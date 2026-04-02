@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Feature Detection and Matching Lab</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Vibe Coding CV Lab</p>
+        <h1>Image Feature Detection and Matching Lab</h1>
+        <p class="hero-copy">
+          Interactive demo for Canny edges, Harris and SIFT-like keypoints, pair matching, RANSAC alignment, and panorama stitching.
+        </p>
+      </div>
+      <div class="hero-card">
+        <p>Quick Start</p>
+        <ul>
+          <li>Use 1 image for edge and keypoint analysis</li>
+          <li>Use 2 images for feature matching and alignment</li>
+          <li>Use 3 or more images for panorama stitching</li>
+        </ul>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="control-panel">
+        <section class="panel">
+          <h2>Input Images</h2>
+          <label class="upload-box">
+            <input id="imageInput" type="file" accept="image/*" multiple />
+            <span>Click to choose images or drag files here</span>
+          </label>
+          <div class="thumb-strip" id="thumbStrip"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Canny Parameters</h2>
+          <label>Gaussian Kernel <input id="gaussianSize" type="range" min="3" max="9" step="2" value="5" /></label>
+          <label>Gaussian Sigma <input id="gaussianSigma" type="range" min="0.8" max="3" step="0.1" value="1.4" /></label>
+          <label>Low Threshold <input id="lowThreshold" type="range" min="10" max="120" step="1" value="45" /></label>
+          <label>High Threshold <input id="highThreshold" type="range" min="40" max="220" step="1" value="110" /></label>
+        </section>
+
+        <section class="panel">
+          <h2>Feature Parameters</h2>
+          <label>Harris Percentile <input id="harrisPercentile" type="range" min="85" max="99.8" step="0.1" value="96.5" /></label>
+          <label>SIFT-like Threshold <input id="siftThreshold" type="range" min="0.008" max="0.08" step="0.002" value="0.02" /></label>
+          <label>Max Keypoints <input id="maxKeypoints" type="range" min="50" max="600" step="10" value="180" /></label>
+        </section>
+
+        <section class="panel">
+          <h2>Matching and Stitching</h2>
+          <label>RANSAC Threshold (px) <input id="ransacThreshold" type="range" min="1" max="8" step="0.5" value="3" /></label>
+          <label>RANSAC Iterations <input id="ransacIterations" type="range" min="80" max="800" step="20" value="240" /></label>
+          <label>Blending
+            <select id="blendingMode">
+              <option value="overlay">Overlay</option>
+              <option value="average" selected>Average</option>
+              <option value="linear">Linear Feather</option>
+            </select>
+          </label>
+          <button id="runButton" class="primary-btn">Run Analysis</button>
+        </section>
+
+        <section class="panel status-panel">
+          <h2>Status</h2>
+          <p id="statusText">Waiting for images. The app will also try to auto-load A1.jpg.</p>
+        </section>
+      </aside>
+
+      <section class="result-panel">
+        <section class="panel">
+          <h2>Summary</h2>
+          <div class="metric-grid" id="metricGrid"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Edge Detection</h2>
+          <div class="canvas-grid two-col">
+            <figure>
+              <canvas id="edgeOriginalCanvas"></canvas>
+              <figcaption>Original Image</figcaption>
+            </figure>
+            <figure>
+              <canvas id="gradientCanvas"></canvas>
+              <figcaption>Gradient Magnitude</figcaption>
+            </figure>
+            <figure>
+              <canvas id="nmsCanvas"></canvas>
+              <figcaption>After Non-Maximum Suppression</figcaption>
+            </figure>
+            <figure>
+              <canvas id="cannyCanvas"></canvas>
+              <figcaption>Final Canny Edge Map</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Keypoint Detection</h2>
+          <div class="canvas-grid two-col">
+            <figure>
+              <canvas id="harrisCanvas"></canvas>
+              <figcaption>Harris Keypoints</figcaption>
+            </figure>
+            <figure>
+              <canvas id="siftCanvas"></canvas>
+              <figcaption>SIFT-like Keypoints</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Two-Image Matching Pipeline</h2>
+          <div class="canvas-grid two-col">
+            <figure>
+              <canvas id="pairFeaturesCanvas"></canvas>
+              <figcaption>Detected Features and Descriptors</figcaption>
+            </figure>
+            <figure>
+              <canvas id="initialMatchesCanvas"></canvas>
+              <figcaption>Initial Matches</figcaption>
+            </figure>
+            <figure>
+              <canvas id="ransacCanvas"></canvas>
+              <figcaption>RANSAC Inliers</figcaption>
+            </figure>
+            <figure>
+              <canvas id="alignedCanvas"></canvas>
+              <figcaption>Warp and Alignment</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Multi-Image Panorama</h2>
+          <div class="canvas-grid two-col">
+            <figure>
+              <canvas id="panoramaCanvas"></canvas>
+              <figcaption>Panorama Result</figcaption>
+            </figure>
+            <figure>
+              <canvas id="blendCompareCanvas"></canvas>
+              <figcaption>Blending Comparison</figcaption>
+            </figure>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
