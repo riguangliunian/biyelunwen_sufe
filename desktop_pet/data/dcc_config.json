@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Maya",
+    "emoji": "🎬",
+    "command": "open -a '/Applications/Autodesk/maya2024/Maya.app'"
+  },
+  {
+    "name": "Houdini",
+    "emoji": "🌀",
+    "command": "open -a '/Applications/Houdini/Current/Frameworks/Houdini.framework/Versions/Current/Resources/bin/houdinifx'"
+  },
+  {
+    "name": "Blender",
+    "emoji": "🔮",
+    "command": "open -a '/Applications/Blender.app'"
+  },
+  {
+    "name": "Nuke",
+    "emoji": "🎥",
+    "command": "open -a '/Applications/Nuke15.0v4/Nuke15.0v4.app'"
+  },
+  {
+    "name": "Terminal",
+    "emoji": "💻",
+    "command": "open -a Terminal"
+  },
+  {
+    "name": "hython",
+    "emoji": "🐍",
+    "command": "open -a Terminal --args -c 'hython; exec bash'"
+  },
+  {
+    "name": "mayapy",
+    "emoji": "🐉",
+    "command": "open -a Terminal --args -c 'mayapy; exec bash'"
+  },
+  {
+    "name": "自定义CLI",
+    "emoji": "⌨️",
+    "command": "open -a Terminal"
+  }
+]
